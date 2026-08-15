@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobGuard — Scam Listing Detector</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header>
+    <h1>🛡️ JobGuard</h1>
+    <p>A self-healing scraper that flags suspicious job & internship postings — built for <strong>Into the Scrape-Verse</strong></p>
+  </header>
+
+  <main>
+    <section id="controls">
+      <button id="refreshBtn">🔄 Rescan Listings</button>
+      <div id="filterBar">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="verified">✅ Verified</button>
+        <button class="filter" data-filter="suspicious">🚩 Suspicious</button>
+      </div>
+      <span id="lastUpdated"></span>
+    </section>
+
+    <section id="status-banner" class="hidden">
+      <p id="statusText"></p>
+    </section>
+
+    <section id="summary">
+      <div class="stat"><span id="totalCount">0</span><label>Scanned</label></div>
+      <div class="stat"><span id="verifiedCount">0</span><label>Verified</label></div>
+      <div class="stat suspicious"><span id="suspiciousCount">0</span><label>Flagged</label></div>
+    </section>
+
+    <section id="results-grid"></section>
+  </main>
+
+  <footer>
+    <p>Data via Bright Data Scraper Studio · Scam detection is rule-based, not a guarantee — always verify independently.</p>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
