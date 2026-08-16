@@ -7,19 +7,27 @@
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
+  <div class="bg-glow"></div>
+
   <header>
-    <h1>🛡️ JobGuard</h1>
+    <div class="logo-badge">🛡️</div>
+    <h1>JobGuard</h1>
     <p>A self-healing scraper that flags suspicious job & internship postings — built for <strong>Into the Scrape-Verse</strong></p>
+    <p class="why-line">Job scams targeting students are a real, growing problem in Pakistan — this dashboard scans real listings and flags the ones showing common scam patterns.</p>
   </header>
 
   <main>
     <section id="controls">
-      <button id="refreshBtn">🔄 Rescan Listings</button>
+      <button id="refreshBtn">
+        <span class="btn-icon">🔄</span> Rescan Listings
+      </button>
       <div id="filterBar">
         <button class="filter active" data-filter="all">All</button>
         <button class="filter" data-filter="verified">✅ Verified</button>
         <button class="filter" data-filter="suspicious">🚩 Suspicious</button>
       </div>
+      <input id="searchInput" type="text" placeholder="🔍 Search title or company..." />
+      <button id="sortBtn">⚠️ Sort by risk</button>
       <span id="lastUpdated"></span>
     </section>
 
@@ -27,17 +35,37 @@
       <p id="statusText"></p>
     </section>
 
+    <p id="healingStats" class="healing-stats"></p>
+
     <section id="summary">
-      <div class="stat"><span id="totalCount">0</span><label>Scanned</label></div>
-      <div class="stat"><span id="verifiedCount">0</span><label>Verified</label></div>
-      <div class="stat suspicious"><span id="suspiciousCount">0</span><label>Flagged</label></div>
+      <div class="stat">
+        <span id="totalCount">0</span>
+        <label>Scanned</label>
+      </div>
+      <div class="stat verified-stat">
+        <span id="verifiedCount">0</span>
+        <label>Verified</label>
+      </div>
+      <div class="stat suspicious">
+        <span id="suspiciousCount">0</span>
+        <label>Flagged</label>
+      </div>
     </section>
 
+    <div id="loadingState" class="loading-state hidden">
+      <div class="spinner"></div>
+      <p>Scanning listings…</p>
+    </div>
+
     <section id="results-grid"></section>
+
+    <div id="emptyState" class="empty-state hidden">
+      <p>🔍 No listings match this filter.</p>
+    </div>
   </main>
 
   <footer>
-    <p>Data via Bright Data Scraper Studio · Scam detection is rule-based, not a guarantee — always verify independently.</p>
+    <p>Data via <strong>Bright Data Scraper Studio</strong> · Scam detection is rule-based, not a guarantee — always verify independently.</p>
   </footer>
 
   <script src="assets/app.js"></script>
