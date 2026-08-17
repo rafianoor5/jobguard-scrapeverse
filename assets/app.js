@@ -170,9 +170,19 @@ function escapeHtml(str) {
 }
 
 function updateSummary() {
+  const verifiedCount = allListings.filter((l) => l.verdict === "verified").length;
+  const suspiciousCount = allListings.filter((l) => l.verdict === "suspicious").length;
+
   animateCount("totalCount", allListings.length);
-  animateCount("verifiedCount", allListings.filter((l) => l.verdict === "verified").length);
-  animateCount("suspiciousCount", allListings.filter((l) => l.verdict === "suspicious").length);
+  animateCount("verifiedCount", verifiedCount);
+  animateCount("suspiciousCount", suspiciousCount);
+
+  const total = verifiedCount + suspiciousCount;
+  const verifiedPct = total > 0 ? Math.round((verifiedCount / total) * 100) : 0;
+  const ratioBar = document.getElementById("ratioBarVerified");
+  const ratioLabel = document.getElementById("ratioLabel");
+  if (ratioBar) ratioBar.style.width = `${verifiedPct}%`;
+  if (ratioLabel) ratioLabel.textContent = `${verifiedPct}% Verified`;
 }
 
 function animateCount(id, target) {
