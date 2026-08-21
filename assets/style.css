@@ -37,6 +37,12 @@ body {
   background: radial-gradient(circle, rgba(110, 231, 183, 0.10) 0%, transparent 65%);
   pointer-events: none;
   z-index: 0;
+  animation: glowDrift 14s ease-in-out infinite;
+}
+
+@keyframes glowDrift {
+  0%, 100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateX(-48%) translateY(24px) scale(1.05); opacity: 0.85; }
 }
 
 .bg-grid {
@@ -49,6 +55,12 @@ body {
   pointer-events: none;
   z-index: 0;
   mask-image: linear-gradient(to bottom, black, transparent 60%);
+  animation: gridPan 40s linear infinite;
+}
+
+@keyframes gridPan {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 48px 48px, 48px 48px; }
 }
 
 /* ---------- Navbar ---------- */
@@ -104,6 +116,19 @@ body {
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 700;
+}
+
+/* ---------- Reveal-on-load / reveal-on-scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ---------- Hero ---------- */
@@ -175,12 +200,23 @@ body {
   text-align: center;
   flex: 1;
   min-width: 150px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .how-step:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px) scale(1.02);
   border-color: var(--accent);
+  box-shadow: 0 14px 30px var(--accent-glow);
+}
+
+.how-icon {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.how-step:hover .how-icon {
+  transform: scale(1.15) rotate(-4deg);
 }
 
 .how-icon {
@@ -232,6 +268,8 @@ main {
 }
 
 button {
+  position: relative;
+  overflow: hidden;
   background: var(--accent);
   color: #04140d;
   border: none;
@@ -240,7 +278,8 @@ button {
   font-weight: 700;
   cursor: pointer;
   font-size: 0.85rem;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -252,7 +291,23 @@ button:hover {
 }
 
 button:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.97);
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(4, 20, 13, 0.28);
+  transform: scale(0);
+  animation: rippleOut 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+@keyframes rippleOut {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
 }
 
 .btn-icon {
@@ -483,6 +538,42 @@ button:hover .btn-icon {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 1.1rem;
+  transition: opacity 0.22s ease;
+}
+
+#results-grid.grid-transitioning {
+  opacity: 0;
+}
+
+/* ---------- Skeleton loading cards ---------- */
+.skeleton-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.3rem;
+  height: 168px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  animation: cardIn 0.35s ease backwards;
+}
+
+.skeleton-line {
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--card-border) 25%, #2f3444 37%, var(--card-border) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.skeleton-line.w-40 { width: 40%; height: 0.8rem; }
+.skeleton-line.w-70 { width: 70%; height: 1.1rem; }
+.skeleton-line.w-50 { width: 50%; height: 0.8rem; }
+.skeleton-line.w-90 { width: 90%; height: 0.75rem; }
+.skeleton-line.w-60 { width: 60%; height: 0.75rem; }
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
 }
 
 .result-card {
@@ -490,8 +581,11 @@ button:hover .btn-icon {
   border-radius: 16px;
   padding: 1.3rem;
   border: 1px solid var(--card-border);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-  animation: cardIn 0.35s ease backwards;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   position: relative;
   overflow: hidden;
 }
@@ -656,4 +750,20 @@ footer strong {
   .hero h1 { font-size: 1.9rem; }
   #summary { grid-template-columns: repeat(2, 1fr); }
   #navbar { padding: 1rem; }
+}
+
+/* ---------- Respect reduced-motion preference ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .bg-glow, .bg-grid {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

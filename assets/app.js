@@ -78,9 +78,26 @@ function scoreListing(listing) {
   };
 }
 
+function renderSkeletons(count = 6) {
+  grid.innerHTML = "";
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement("div");
+    s.className = "skeleton-card";
+    s.style.animationDelay = `${i * 0.05}s`;
+    s.innerHTML = `
+      <div class="skeleton-line w-40"></div>
+      <div class="skeleton-line w-70"></div>
+      <div class="skeleton-line w-50"></div>
+      <div class="skeleton-line w-90"></div>
+      <div class="skeleton-line w-60"></div>
+    `;
+    grid.appendChild(s);
+  }
+}
+
 async function loadData() {
   loadingState.classList.remove("hidden");
-  grid.innerHTML = "";
+  renderSkeletons();
   emptyState.classList.add("hidden");
 
   try {
@@ -163,6 +180,14 @@ function renderResults() {
   });
 }
 
+function renderResultsSmooth() {
+  grid.classList.add("grid-transitioning");
+  window.setTimeout(() => {
+    renderResults();
+    grid.classList.remove("grid-transitioning");
+  }, 180);
+}
+
 function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str;
@@ -187,16 +212,18 @@ function updateSummary() {
 
 function animateCount(id, target) {
   const el = document.getElementById(id);
-  let current = 0;
-  const step = Math.max(1, Math.ceil(target / 20));
-  const interval = setInterval(() => {
-    current += step;
-    if (current >= target) {
-      current = target;
-      clearInterval(interval);
-    }
-    el.textContent = current;
-  }, 20);
+  if (!el) return;
+  const duration = 700;
+  const start = performance.now();
+  // easeOutExpo — fast start, gentle settle, reads as "smooth" rather than ticking
+  const ease = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+
+  function tick(now) {
+    const progress = Math.min(1, (now - start) / duration);
+    el.textContent = Math.round(target * ease(progress));
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
 function showStatus(message, isError) {
@@ -210,14 +237,16 @@ filterButtons.forEach((btn) => {
     filterButtons.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
     currentFilter = btn.dataset.filter;
-    renderResults();
+    renderResultsSmooth();
   });
 });
 
 if (searchInput) {
+  let searchDebounce;
   searchInput.addEventListener("input", (e) => {
     searchQuery = e.target.value;
-    renderResults();
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(renderResultsSmooth, 120);
   });
 }
 
@@ -225,9 +254,62 @@ if (sortBtn) {
   sortBtn.addEventListener("click", () => {
     sortByRisk = !sortByRisk;
     sortBtn.classList.toggle("active", sortByRisk);
-    renderResults();
+    renderResultsSmooth();
   });
 }
 
 refreshBtn.addEventListener("click", loadData);
-window.addEventListener("DOMContentLoaded", loadData);
+
+// --- Button ripple effect (delegated, works for any current/future button) ---
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const ripple = document.createElement("span");
+  ripple.className = "ripple";
+  ripple.style.width = ripple.style.height = `${size}px`;
+  ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+  ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+  btn.appendChild(ripple);
+  ripple.addEventListener("animationend", () => ripple.remove());
+});
+
+// --- Scroll reveal: fades in hero, how-it-works steps, and summary stats ---
+function setupScrollReveal() {
+  const targets = [
+    ...document.querySelectorAll(".hero-badge, .hero h1, .hero-sub"),
+    ...document.querySelectorAll(".how-step"),
+    ...document.querySelectorAll(".stat"),
+  ];
+  targets.forEach((el, i) => {
+    el.classList.add("reveal");
+    el.style.transitionDelay = `${Math.min(i * 0.08, 0.6)}s`;
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+  targets.forEach((el) => observer.observe(el));
+
+  // Hero is above the fold — reveal it immediately as a page-load sequence
+  // rather than waiting on scroll.
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".hero-badge, .hero h1, .hero-sub").forEach((el) => {
+      el.classList.add("visible");
+    });
+  });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  setupScrollReveal();
+  loadData();
+});
