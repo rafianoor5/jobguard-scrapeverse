@@ -4,7 +4,7 @@ Built for **Into the Scrape-Verse** hackathon (WeMakeDevs × Bright Data), Aug 1
 
 **🔗 Live site:** https://rafianoor5.github.io/jobguard-scrapeverse/
 
-> *Add a screenshot of your dashboard here — take one from your live site and drag it into this file on GitHub (GitHub renders images inline automatically once uploaded to the repo).*
+![JobGuard homepage](image/homepage.png)
 
 ## The Problem
 Students and fresh graduates in Pakistan are frequently targeted by fake job
