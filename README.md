@@ -3,6 +3,7 @@
 Built for **Into the Scrape-Verse** hackathon (WeMakeDevs × Bright Data), Aug 17–23, 2026.
 
 **🔗 Live site:** https://rafianoor5.github.io/jobguard-scrapeverse/
+
 ![JobGuard homepage](image/SS%201.png)
 ![JobGuard results view](image/SS%202.png)
 ![JobGuard scam detection](image/SS%203.png)
@@ -64,7 +65,7 @@ score (0–10) shown for flagged listings:
 | Urgency/pressure language | 1 | "Apply immediately, limited seats" |
 
 A listing scoring 3+ is flagged **Suspicious**; otherwise **Verified**.
-This logic lives in `assets/app.js` and is easy to extend with more rules.
+This logic lives in `app.js` and is easy to extend with more rules.
 
 ## Real Examples Caught
 - **"Online Graphic Designer Intern"** — description explicitly states a
@@ -84,11 +85,14 @@ This logic lives in `assets/app.js` and is easy to extend with more rules.
 ```
 jobguard-scrapeverse/
 ├── index.html            # main dashboard
-├── assets/
-│   ├── style.css           # styling and animations
-│   └── app.js                # fetch, scoring rules, search/sort, render logic
+├── style.css              # styling and animations
+├── app.js                 # fetch, scoring rules, search/sort, render logic
 ├── data/
-│   └── listings.json         # real scraped Rozee.pk data (83 listings)
+│   └── listings.json      # real scraped listings
+├── image/
+│   ├── SS 1.png            # homepage screenshot
+│   ├── SS 2.png            # results view screenshot
+│   └── SS 3.png            # scam detection screenshot
 └── README.md
 ```
 
@@ -101,9 +105,8 @@ Or visit the live GitHub Pages link above.
 
 ## Future Work
 This was built solo in one week — a few directions it could grow:
-- **More sources:** add other Pakistani job boards (e.g. Mustakbil) using
-  the same field schema, to prove self-healing across different site
-  structures, not just one.
+- **More sources:** add other Pakistani job boards using the same field
+  schema, to prove self-healing across even more site structures.
 - **Smarter detection:** move from keyword-based rules to a lightweight
   ML classifier trained on labeled real/scam listing examples.
 - **Alerts:** a browser extension or WhatsApp bot that checks a listing
@@ -121,3 +124,16 @@ encourage users to independently verify listings, not replace their judgment.
 - **Technical excellence** — rule-based logic layer, search/sort, live deployment
 - **Reliability & self-healing** — backed by real numbers (1,000+ pages across 2 sites, 152 recovered)
 - **Presentation** — polished UI, Verified vs Suspicious instantly understandable
+
+## Hackathon Submission Checklist — Into the Scrape-Verse
+- [x] Custom scraper built in Bright Data Scraper Studio (not just an existing library scraper)
+- [x] Uses only publicly available web data (Rozee.pk, Mustakbil.com — no login-gated or private data)
+- [x] No government sites scraped
+- [x] Structured output (listings.json feeding the scoring engine)
+- [x] Live demo link included above
+- [x] Repository is public and includes this README
+- [x] README explains how Scraper Studio was used in the pipeline
+- [ ] Demo video recorded and linked (60–90 sec walkthrough: scrape → score → flag)
+- [x] Project description clearly states the problem being solved
+- [ ] Posted about the build on LinkedIn and tagged WeMakeDevs
+- [x] Coding/design work done within the hackathon window (Aug 17–23, 2026)
