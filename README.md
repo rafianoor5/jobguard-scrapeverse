@@ -3,8 +3,9 @@
 Built for **Into the Scrape-Verse** hackathon (WeMakeDevs × Bright Data), Aug 17–23, 2026.
 
 **🔗 Live site:** https://rafianoor5.github.io/jobguard-scrapeverse/
-
-![JobGuard homepage](image/homepage.png)
+![JobGuard homepage](image/SS%201.png)
+![JobGuard results view](image/SS%202.png)
+![JobGuard scam detection](image/SS%203.png)
 
 ## The Problem
 Students and fresh graduates in Pakistan are frequently targeted by fake job
