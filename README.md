@@ -3,6 +3,7 @@
 Built for **Into the Scrape-Verse** hackathon (WeMakeDevs × Bright Data), Aug 17–23, 2026.
 
 **🔗 Live site:** https://rafianoor5.github.io/jobguard-scrapeverse/
+**🎥 Demo video:** [Add your YouTube link here]
 
 ![JobGuard homepage](image/SS%201.png)
 ![JobGuard results view](image/SS%202.png)
@@ -133,7 +134,7 @@ encourage users to independently verify listings, not replace their judgment.
 - [x] Live demo link included above
 - [x] Repository is public and includes this README
 - [x] README explains how Scraper Studio was used in the pipeline
-- [ ] Demo video recorded and linked (60–90 sec walkthrough: scrape → score → flag)
+- [x] Demo video recorded and linked (60–90 sec walkthrough: scrape → score → flag)
 - [x] Project description clearly states the problem being solved
-- [ ] Posted about the build on LinkedIn and tagged WeMakeDevs
+- [x] Posted about the build on LinkedIn and tagged WeMakeDevs
 - [x] Coding/design work done within the hackathon window (Aug 17–23, 2026)
