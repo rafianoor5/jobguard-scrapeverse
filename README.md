@@ -3,7 +3,7 @@
 Built for **Into the Scrape-Verse** hackathon (WeMakeDevs × Bright Data), Aug 17–23, 2026.
 
 **🔗 Live site:** https://rafianoor5.github.io/jobguard-scrapeverse/
-**🎥 Demo video:** [Add your YouTube link here]
+**🎥 Demo video:** https://youtu.be/AniOTCjI38Y
 
 ![JobGuard homepage](image/SS%201.png)
 ![JobGuard results view](image/SS%202.png)
